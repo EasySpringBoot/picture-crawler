@@ -82,7 +82,7 @@ $(function () {
 
     })
 
-    $('#add_key_word_form_save_button').onclick(function () {
+    $('#add_key_word_form_save_button').on('click', function () {
         var keyWord = $('#add_key_word_form_keyWord').val()
         $.ajax({
             url: 'save_keyword',
