@@ -51,5 +51,7 @@ dependencies {
     compile('com.alibaba:fastjson:1.1.64.android')
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
 
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '0.19.2'
 
 }

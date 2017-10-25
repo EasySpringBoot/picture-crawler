@@ -6,8 +6,14 @@ ALTER TABLE `sotu`.`image`
 
 show TABLES ;
 desc image;
+desc search_key_word;
 
 SELECT count(*) from image;
+SELECT * FROM image;
+SELECT * FROM search_key_word where key_word = '';
+SELECT count(*) FROM search_key_word;
+delete from search_key_word WHERE key_word = '';
+
 
 
 
