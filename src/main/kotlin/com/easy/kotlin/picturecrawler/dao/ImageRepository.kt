@@ -15,34 +15,40 @@ import org.springframework.transaction.annotation.Transactional
 
 interface ImageRepository : PagingAndSortingRepository<Image, Long> {
 
-@Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:category% order by a.gmtModified desc")
-fun findByCategory(@Param("category") category: String): MutableList<Image>
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:category% order by a.gmtModified desc")
+    fun findByCategory(@Param("category") category: String): MutableList<Image>
 
-@Query("select count(*) from #{#entityName} a where a.url = :url")
-fun countByUrl(@Param("url") url: String): Int
+    @Query("select count(*) from #{#entityName} a where a.url = :url")
+    fun countByUrl(@Param("url") url: String): Int
 
-/**源数据列表*/
-@Query("SELECT a from #{#entityName} a where a.isDeleted=0 order by a.id desc") override fun findAll(pageable: Pageable): Page<Image>
+    /**源数据列表*/
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 order by a.id desc") override fun findAll(pageable: Pageable): Page<Image>
 
-@Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:searchText% order by a.id desc")
-fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.category like %:searchText% order by a.id desc")
+    fun search(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 
-/**收藏列表*/
-@Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 order by a.gmtModified desc")
-fun findAllFavorite(pageable: Pageable): Page<Image>
+    /**收藏列表*/
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 order by a.gmtModified desc")
+    fun findAllFavorite(pageable: Pageable): Page<Image>
 
-@Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 and a.category like %:searchText% order by a.gmtModified desc")
-fun searchFavorite(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.isFavorite=1 and a.category like %:searchText% order by a.gmtModified desc")
+    fun searchFavorite(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 
-@Modifying
-@Transactional
-@Query("update #{#entityName} a set a.isFavorite=1,a.gmtModified=now() where a.id=:id")
-fun addFavorite(@Param("id") id: Long)
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} a set a.isFavorite=1,a.gmtModified=now() where a.id=:id")
+    fun addFavorite(@Param("id") id: Long)
 
-@Modifying
-@Transactional
-@Query("update #{#entityName} a set a.isDeleted=1 where a.id=:id")
-fun delete(@Param("id") id: Long)
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} a set a.isDeleted=1 where a.id=:id")
+    fun delete(@Param("id") id: Long)
+
+    @Query("SELECT a from #{#entityName} a where a.isDeleted=0 and a.sourceType=1 order by a.id desc")
+    fun findGankAll(pageable: Pageable): Page<Image>
+
+    @Query("SELECT a from #{#entityName} a where a.sourceType=1  and a.isDeleted=0 and a.category like %:searchText% order by a.id desc")
+    fun searchGank(@Param("searchText") searchText: String, pageable: Pageable): Page<Image>
 
 }
 

@@ -1,5 +1,6 @@
 package com.easy.kotlin.picturecrawler.service
 
+import com.easy.kotlin.picturecrawler.api.GankApiBuilder
 import com.easy.kotlin.picturecrawler.api.ImageSearchApiBuilder
 import com.easy.kotlin.picturecrawler.dao.ImageRepository
 import com.easy.kotlin.picturecrawler.dao.SearchKeyWordRepository
@@ -19,26 +20,55 @@ class CrawImageService {
     @Autowired lateinit var imageRepository: ImageRepository
     @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
 
-    fun doCrawJob() = runBlocking {
+    fun doBaiduImageCrawJob() = runBlocking {
         val list = searchKeyWordRepository.findAll()
+
         for (i in 1..1000) {
             list.forEach {
                 launch(CommonPool) {
-                    saveImage(it.keyWord, i)
+                    saveBaiduImage(it.keyWord, i)
                 }
+            }
+        }
+
+
+    }
+
+    fun doGankImageCrawJob() = runBlocking {
+        for (page in 1..6) {
+            launch(CommonPool) {
+                saveGankImage(page)
             }
         }
     }
 
-    private fun saveImage(word: String, i: Int) {
+
+    private fun saveGankImage(page: Int) {
+        val api = GankApiBuilder.build(page)
+        JsonResultProcessor.getGankImageUrls(api).forEach {
+            val url = it
+            if (imageRepository.countByUrl(url) == 0) {
+                val Image = Image()
+                Image.category = "干货集中营福利"
+                Image.url = url
+                Image.sourceType = 1
+                Image.imageBlob = getByteArray(url)
+                logger.info("Image = ${Image}")
+                imageRepository.save(Image)
+            }
+        }
+    }
+
+    private fun saveBaiduImage(word: String, i: Int) {
         val api = ImageSearchApiBuilder.build(word, i)
-        JsonResultProcessor.getImageCategoryAndUrlList(api).forEach {
+        JsonResultProcessor.getBaiduImageCategoryAndUrlList(api).forEach {
             val category = it.category
             val url = it.url
             if (imageRepository.countByUrl(url) == 0) {
                 val Image = Image()
                 Image.category = category
                 Image.url = url
+                Image.sourceType = 0
                 //Image.imageBlob = getByteArray(url)
                 logger.info("Image = ${Image}")
                 imageRepository.save(Image)

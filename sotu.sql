@@ -16,6 +16,8 @@ delete from search_key_word WHERE key_word = '';
 
 SELECT * FROM search_key_word;
 
+SELECT * FROM image WHERE source_type=1;
+
 
 
 

@@ -8,15 +8,18 @@ import java.nio.charset.Charset
 
 object JsonResultProcessor {
 
-    fun getImageCategoryAndUrlList(url: String): MutableList<ImageCategoryAndUrl> {
-        return parseImageCategoryAndUrlList(jsonstr = getUrlContent(url))
+    fun getBaiduImageCategoryAndUrlList(url: String): MutableList<ImageCategoryAndUrl> {
+        return parseBaiduImageCategoryAndUrlList(jsonstr = getUrlContent(url))
     }
 
-    fun parseImageCategoryAndUrlList(jsonstr: String): MutableList<ImageCategoryAndUrl> {
+    fun getGankImageUrls(url: String): MutableList<String> {
+        return parseGankImageUrls(jsonstr = getUrlContent(url))
+    }
+
+
+    fun parseBaiduImageCategoryAndUrlList(jsonstr: String): MutableList<ImageCategoryAndUrl> {
         val imageResultList = mutableListOf<ImageCategoryAndUrl>()
-
         try {
-
             val obj = JSON.parse(jsonstr) as Map<*, *>
             val dataArray = obj.get("data") as JSONArray
             dataArray.forEach {
@@ -38,14 +41,30 @@ object JsonResultProcessor {
         return URL(url).readText(Charset.defaultCharset())
     }
 
-fun passFilter(imgUrl: String): Boolean {
-    return imgUrl.endsWith(".jpg")
-            && !imgUrl.contains("baidu.com/")
-            && !imgUrl.contains("126.net")
-            && !imgUrl.contains("pconline.com")
-            && !imgUrl.contains("nipic.com")
-            && !imgUrl.contains("zol.com")
-}
+    fun passFilter(imgUrl: String): Boolean {
+        return imgUrl.endsWith(".jpg")
+                && !imgUrl.contains("baidu.com/")
+                && !imgUrl.contains("126.net")
+                && !imgUrl.contains("pconline.com")
+                && !imgUrl.contains("nipic.com")
+                && !imgUrl.contains("zol.com")
+    }
+
+    fun parseGankImageUrls(jsonstr: String): MutableList<String> {
+        val urls = mutableListOf<String>()
+        try {
+            val obj = JSON.parse(jsonstr) as Map<*, *>
+            val dataArray = obj.get("results") as JSONArray
+            dataArray.forEach {
+                val url = (it as Map<*, *>).get("url") as String
+                urls.add(url)
+            }
+        } catch (ex: Exception) {
+        }
+        return urls
+    }
+
+
 }
 
 

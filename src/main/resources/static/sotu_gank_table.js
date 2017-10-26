@@ -15,11 +15,13 @@ $(function () {
         }
     }, {
         title: '图片',
-        field: 'url',
+        field: 'imageBlob',
         align: 'center',
         valign: 'middle',
         formatter: function (value, row, index) {
-            return "<img onclick=downloadImage('" + value + "') width='100%' src='" + value + "'>"
+            // var html = "<img onclick=downloadImage('" + value + "') width='100%' src='" + value + "'>"
+            var html = '<img onclick="downBase64Image(this.src)" width="100%" src="data:image/jpg;base64,' + value + '"/>'
+            return html
         }
     }, {
         title: ' 操作',
@@ -35,7 +37,7 @@ $(function () {
     })
 
     $('#sotu_table').bootstrapTable({
-        url: 'sotuSearchJson',
+        url: 'sotuGankSearchJson',
         sidePagination: "server",
         queryParamsType: 'page,size',
         contentType: "application/x-www-form-urlencoded",
@@ -51,7 +53,7 @@ $(function () {
         paginationDetailHAlign: 'left', //right, left
         paginationPreText: ' 上一页',
         paginationNextText: '下一页',
-        search: true,
+        search: false,
         searchText: searchText,
         searchTimeOut: 500,
         searchAlign: 'right',

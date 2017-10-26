@@ -28,6 +28,8 @@ class Image {
 
     @Lob
     var imageBlob: ByteArray = byteArrayOf()
+    /* 0-Baidu  1-Gank */
+    var sourceType: Int = 0
 
     override fun toString(): String {
         return "Image(id=$id, version=$version, category='$category', isFavorite=$isFavorite, url='$url', gmtCreated=$gmtCreated, gmtModified=$gmtModified, isDeleted=$isDeleted, deletedDate=$deletedDate)"
