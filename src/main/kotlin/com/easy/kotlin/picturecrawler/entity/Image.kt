@@ -26,6 +26,9 @@ class Image {
     var isDeleted: Int = 0  //1 Yes 0 No
     var deletedDate: Date = Date()
 
+    @Lob
+    var imageBlob: ByteArray = byteArrayOf()
+
     override fun toString(): String {
         return "Image(id=$id, version=$version, category='$category', isFavorite=$isFavorite, url='$url', gmtCreated=$gmtCreated, gmtModified=$gmtModified, isDeleted=$isDeleted, deletedDate=$deletedDate)"
     }

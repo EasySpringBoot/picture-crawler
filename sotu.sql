@@ -14,6 +14,8 @@ SELECT * FROM search_key_word where key_word = '';
 SELECT count(*) FROM search_key_word;
 delete from search_key_word WHERE key_word = '';
 
+SELECT * FROM search_key_word;
+
 
 
 

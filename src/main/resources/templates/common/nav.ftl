@@ -11,7 +11,15 @@
                 <li class='<#if requestURI=="/search_keyword_view">active</#if>'><a href="search_keyword_view">搜索关键字</a>
                 </li>
 
-                <li class=""><a href="doCrawJob" target="_blank">执行抓取</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        系统定时任务 <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="doCrawJob" target="_blank">执行抓取</a></li>
+                        <li><a href="doBatchUpdateJob" target="_blank">更新图片总数</a></li>
+                    </ul>
+                </li>
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

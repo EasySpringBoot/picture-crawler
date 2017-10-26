@@ -14,13 +14,24 @@ $(function () {
             formatter: function (value, row, index) {
                 return value
             }
-        }, {
+        },
+        {
             title: '关键字',
             field: 'keyWord',
             align: 'center',
             valign: 'middle',
             formatter: function (value, row, index) {
                 var html = "<a href='sotu_view?keyWord=" + value + "' target='_blank'>" + value + "</a>"
+                return html
+            }
+        },
+        {
+            title: '图片总数',
+            field: 'totalImage',
+            align: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {
+                var html = "<a href='sotu_view?keyWord=" + row.keyWord + "' target='_blank'>" + row.totalImage + "</a>"
                 return html
             }
         })
@@ -82,24 +93,25 @@ $(function () {
 
     })
 
-    $('#add_key_word_form_save_button').on('click', function () {
-        var keyWord = $('#add_key_word_form_keyWord').val()
-        $.ajax({
-            url: 'save_keyword',
-            type: 'get',
-            data: {keyWord: keyWord},
-            success: function (response) {
-                if (response == "1") {
-                    alert("保存成功")
-                } else {
-                    alert("保存失败")
-                }
-
-            },
-            error: function (error) {
-                alert(JSON.stringify(error))
+$('#add_key_word_form_save_button').on('click', function () {
+    var keyWord = $('#add_key_word_form_keyWord').val()
+    $.ajax({
+        url: 'save_keyword',
+        type: 'get',
+        data: {keyWord: keyWord},
+        success: function (response) {
+            if (response == "1") {
+                alert("保存成功")
+                $('#search_keyword_table').bootstrapTable('refresh')
+            } else {
+                alert("数据不能为空")
             }
-        })
+
+        },
+        error: function (error) {
+            alert(JSON.stringify(error))
+        }
     })
+})
 
 })

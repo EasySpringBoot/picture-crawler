@@ -10,6 +10,7 @@ import kotlinx.coroutines.experimental.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.net.URL
 
 @Service
 class CrawImageService {
@@ -19,10 +20,8 @@ class CrawImageService {
     @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
 
     fun doCrawJob() = runBlocking {
-
         val list = searchKeyWordRepository.findAll()
-
-        for (i in 1..100) {
+        for (i in 1..1000) {
             list.forEach {
                 launch(CommonPool) {
                     saveImage(it.keyWord, i)
@@ -40,8 +39,15 @@ class CrawImageService {
                 val Image = Image()
                 Image.category = category
                 Image.url = url
+                //Image.imageBlob = getByteArray(url)
+                logger.info("Image = ${Image}")
                 imageRepository.save(Image)
             }
         }
+    }
+
+    private fun getByteArray(url: String): ByteArray {
+        val urlObj = URL(url)
+        return urlObj.readBytes()
     }
 }

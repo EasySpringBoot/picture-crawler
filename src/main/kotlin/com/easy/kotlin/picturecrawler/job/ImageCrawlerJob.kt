@@ -10,12 +10,14 @@ import java.util.*
 @Component
 class ImageCrawlerJob {
 
-    @Autowired lateinit var CrawImagesService: CrawImageService
+    @Autowired lateinit var crawImagesService: CrawImageService
+
     @Scheduled(cron = "0 */5 * * * ?")
     fun job() {
-        println("开始执行定时任务： ${Date()}")
-        CrawImagesService.doCrawJob()
+        println("开始执行定时任务 doCrawJob： ${Date()}")
+        crawImagesService.doCrawJob()
     }
+
 }
 
 

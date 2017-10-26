@@ -22,37 +22,41 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 class SearchKeyWordController {
 
-    @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
+@Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
 
-    @RequestMapping(value = "search_keyword_view", method = arrayOf(RequestMethod.GET))
-    fun sotuView(model: Model, request: HttpServletRequest): ModelAndView {
-        model.addAttribute("requestURI", request.requestURI)
-        return ModelAndView("search_keyword_view")
+@RequestMapping(value = "search_keyword_view", method = arrayOf(RequestMethod.GET))
+fun sotuView(model: Model, request: HttpServletRequest): ModelAndView {
+    model.addAttribute("requestURI", request.requestURI)
+    return ModelAndView("search_keyword_view")
+}
+
+
+@RequestMapping(value = "searchKeyWordJson", method = arrayOf(RequestMethod.GET))
+@ResponseBody
+fun sotuSearchJson(@RequestParam(value = "page", defaultValue = "0") page: Int, @RequestParam(value = "size", defaultValue = "10") size: Int, @RequestParam(value = "searchText", defaultValue = "") searchText: String): Page<SearchKeyWord> {
+    return getPageResult(page, size, searchText)
+}
+
+private fun getPageResult(page: Int, size: Int, searchText: String): Page<SearchKeyWord> {
+    val sort = Sort(Sort.Direction.DESC, "id")
+    // 注意：PageRequest.of(page,size,sort) page 默认是从0开始
+    val pageable = PageRequest.of(page, size, sort)
+    if (searchText == "") {
+        return searchKeyWordRepository.findAll(pageable)
+    } else {
+        return searchKeyWordRepository.search(searchText, pageable)
     }
+}
 
 
-    @RequestMapping(value = "searchKeyWordJson", method = arrayOf(RequestMethod.GET))
-    @ResponseBody
-    fun sotuSearchJson(@RequestParam(value = "page", defaultValue = "0") page: Int, @RequestParam(value = "size", defaultValue = "10") size: Int, @RequestParam(value = "searchText", defaultValue = "") searchText: String): Page<SearchKeyWord> {
-        return getPageResult(page, size, searchText)
-    }
-
-    private fun getPageResult(page: Int, size: Int, searchText: String): Page<SearchKeyWord> {
-        val sort = Sort(Sort.Direction.DESC, "id")
-        // 注意：PageRequest.of(page,size,sort) page 默认是从0开始
-        val pageable = PageRequest.of(page, size, sort)
-        if (searchText == "") {
-            return searchKeyWordRepository.findAll(pageable)
-        } else {
-            return searchKeyWordRepository.search(searchText, pageable)
-        }
-    }
-
-
-    @RequestMapping(value = "save_keyword", method = arrayOf(RequestMethod.GET,RequestMethod.POST))
-    @ResponseBody
-    fun save(@RequestParam(value = "keyWord")keyWord:String): String {
-        searchKeyWordRepository.saveOnNoDuplicateKey(keyWord)
-        return "1"
-    }
+@RequestMapping(value = "save_keyword", method = arrayOf(RequestMethod.GET,RequestMethod.POST))
+@ResponseBody
+fun save(@RequestParam(value = "keyWord")keyWord:String): String {
+if(keyWord==""){
+    return "0"
+}else{
+    searchKeyWordRepository.saveOnNoDuplicateKey(keyWord)
+    return "1"
+}
+}
 }
