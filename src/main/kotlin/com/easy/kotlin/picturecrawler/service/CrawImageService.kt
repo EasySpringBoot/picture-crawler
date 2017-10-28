@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Service
 class CrawImageService {
@@ -48,13 +50,13 @@ class CrawImageService {
         JsonResultProcessor.getGankImageUrls(api).forEach {
             val url = it
             if (imageRepository.countByUrl(url) == 0) {
-                val Image = Image()
-                Image.category = "干货集中营福利"
-                Image.url = url
-                Image.sourceType = 1
-                Image.imageBlob = getByteArray(url)
-                logger.info("Image = ${Image}")
-                imageRepository.save(Image)
+                val image = Image()
+                image.category = "干货集中营福利 ${SimpleDateFormat("yyyy-MM-dd").format(Date())}"
+                image.url = url
+                image.sourceType = 1
+                image.imageBlob = getByteArray(url)
+                logger.info("image = ${image}")
+                imageRepository.save(image)
             }
         }
     }
@@ -65,13 +67,13 @@ class CrawImageService {
             val category = it.category
             val url = it.url
             if (imageRepository.countByUrl(url) == 0) {
-                val Image = Image()
-                Image.category = category
-                Image.url = url
-                Image.sourceType = 0
-                //Image.imageBlob = getByteArray(url)
-                logger.info("Image = ${Image}")
-                imageRepository.save(Image)
+                val image = Image()
+                image.category = category
+                image.url = url
+                image.sourceType = 0
+                //image.imageBlob = getByteArray(url)
+                logger.info("image = ${image}")
+                imageRepository.save(image)
             }
         }
     }

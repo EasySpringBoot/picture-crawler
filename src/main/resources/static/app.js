@@ -79,16 +79,12 @@ function base64Img2Blob(code) {
     var contentType = parts[0].split(':')[1];
     var raw = window.atob(parts[1]);
     var rawLength = raw.length;
-
     var uInt8Array = new Uint8Array(rawLength);
-
     for (var i = 0; i < rawLength; ++i) {
         uInt8Array[i] = raw.charCodeAt(i);
     }
-
     return new Blob([uInt8Array], {type: contentType});
 }
-
 
 function downloadFile(fileName, content) {
     var aLink = document.createElement('a');
@@ -99,3 +95,46 @@ function downloadFile(fileName, content) {
     aLink.href = URL.createObjectURL(blob);
     aLink.dispatchEvent(evt);
 }
+
+function slideShow(index) {
+    var urlArray = []
+    var size = $('img').length
+    for (var i = 0; i < size; i++) {
+        urlArray.push($($('img')[i]).attr('data-original'))
+    }
+
+    var nextLoop = setInterval(function () {
+        $('#picNext').click()
+    }, 5000)
+
+    fnSlideShow(urlArray, index, nextLoop);
+}
+
+$(function () {
+    $(document).on('keydown', function (event) {
+        // 键盘翻页事件
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+
+        if (e && e.keyCode == 38) {//上
+            // 上一张图片
+            $('#picPrev').click()
+        }
+
+        if (e && e.keyCode == 40) {//下
+            // 下一张图片
+            $('#picNext').click()
+
+        }
+
+        if (e && e.keyCode == 37) {//左
+            // 上一页
+            $('.page-pre').click()
+        }
+
+        if (e && e.keyCode == 39) {//右
+            // 下一页
+            $('.page-next').click()
+
+        }
+    })
+})

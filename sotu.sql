@@ -36,6 +36,10 @@ FROM information_schema.tables
 WHERE table_schema = 'sotu';
 
 
+UPDATE image
+SET category = concat('干货集中营福利', curdate()) where source_type=1;
+
+
 
 
 

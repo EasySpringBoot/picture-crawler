@@ -62,7 +62,7 @@ $(function () {
         sortName: "id",
         pageNumber: 1,     //初始化加载第一页，默认第一页
         pageSize: 10,      //每页的记录行数（*）
-        pageList: [8, 16, 32, 64, 128], // 可选的每页数据
+        pageList: [20, 50, 100, 200, 500], // 可选的每页数据
         totalField: 'totalElements', // 所有记录 count
         dataField: 'content', //后端 json 对应的表格List数据的 key
         columns: columns,
@@ -90,28 +90,27 @@ $(function () {
             // 下一页
             $('.page-next').click()
         }
-
     })
 
-$('#add_key_word_form_save_button').on('click', function () {
-    var keyWord = $('#add_key_word_form_keyWord').val()
-    $.ajax({
-        url: 'save_keyword',
-        type: 'get',
-        data: {keyWord: keyWord},
-        success: function (response) {
-            if (response == "1") {
-                alert("保存成功")
-                $('#search_keyword_table').bootstrapTable('refresh')
-            } else {
-                alert("数据不能为空")
+    $('#add_key_word_form_save_button').on('click', function () {
+        var keyWord = $('#add_key_word_form_keyWord').val()
+        $.ajax({
+            url: 'save_keyword',
+            type: 'get',
+            data: {keyWord: keyWord},
+            success: function (response) {
+                if (response == "1") {
+                    alert("保存成功")
+                    $('#search_keyword_table').bootstrapTable('refresh')
+                } else {
+                    alert("数据不能为空")
+                }
+
+            },
+            error: function (error) {
+                alert(JSON.stringify(error))
             }
-
-        },
-        error: function (error) {
-            alert(JSON.stringify(error))
-        }
+        })
     })
-})
 
 })
