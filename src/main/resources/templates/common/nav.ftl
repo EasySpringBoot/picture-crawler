@@ -17,7 +17,7 @@
                         系统定时任务 <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="doCrawJob" target="_blank">抓取百度图片</a></li>
+                        <li><a href="doBaiduImageCrawJob" target="_blank">抓取百度图片</a></li>
                         <li><a href="doGankImageCrawJob" target="_blank">抓取干货福利图</a></li>
                         <li><a href="doBatchUpdateJob" target="_blank">更新图片总数</a></li>
                     </ul>
