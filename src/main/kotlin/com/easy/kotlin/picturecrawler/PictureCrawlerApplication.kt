@@ -10,6 +10,7 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.io.File
 
 
@@ -26,7 +27,6 @@ fun main(args: Array<String>) {
 @Order(value = Ordered.LOWEST_PRECEDENCE)
 class initSearchKeyWordRunner : CommandLineRunner {
     @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
-
     override fun run(vararg args: String) {
         var keyWords = File("搜索关键词列表.data").readLines()
         keyWords.forEach {

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 interface SearchKeyWordRepository : PagingAndSortingRepository<SearchKeyWord, Long> {
     @Modifying
-    //@Transactional
+    @Transactional
     @Query(value = "INSERT INTO `search_key_word` (`deleted_date`, `gmt_created`, `gmt_modified`, `is_deleted`, `key_word`) VALUES (now(), now(), now(), '0', :keyWord) ON DUPLICATE KEY UPDATE `gmt_modified` = now()", nativeQuery = true)
     fun saveOnNoDuplicateKey(@Param("keyWord") keyWord: String): Int
 
@@ -28,7 +28,7 @@ interface SearchKeyWordRepository : PagingAndSortingRepository<SearchKeyWord, Lo
 
 
     @Modifying
-    //@Transactional
+    @Transactional
     @Query("update search_key_word a set a.total_image = (select count(*) from image i where i.is_deleted=0 and i.category like concat('%',a.key_word,'%'))", nativeQuery = true)
     fun batchUpdateTotalImage()
 
