@@ -29,6 +29,10 @@ FROM image
 WHERE source_type = 1;
 
 
+UPDATE image
+SET category = concat('干货集中营福利', curdate()) where source_type=1;
+
+
 SELECT
   @mb := round((sum(DATA_LENGTH) + sum(INDEX_LENGTH)) / (1024 * 1024), 2),
   concat(@mb, 'MB')
@@ -36,8 +40,7 @@ FROM information_schema.tables
 WHERE table_schema = 'sotu';
 
 
-UPDATE image
-SET category = concat('干货集中营福利', curdate()) where source_type=1;
+
 
 
 

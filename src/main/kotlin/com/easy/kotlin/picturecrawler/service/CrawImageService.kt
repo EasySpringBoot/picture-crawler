@@ -32,8 +32,6 @@ class CrawImageService {
                 }
             }
         }
-
-
     }
 
     fun doGankImageCrawJob() = runBlocking {

@@ -16,7 +16,6 @@ object JsonResultProcessor {
         return parseGankImageUrls(jsonstr = getUrlContent(url))
     }
 
-
     fun parseBaiduImageCategoryAndUrlList(jsonstr: String): MutableList<ImageCategoryAndUrl> {
         val imageResultList = mutableListOf<ImageCategoryAndUrl>()
         try {
