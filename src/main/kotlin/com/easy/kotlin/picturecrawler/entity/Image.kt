@@ -14,7 +14,7 @@ class Image {
     @Version
     var version: Int = 0
 
-    @Column(length = 255, unique = true, nullable = false)
+    @Column(length = 255)
     var category: String = ""
     var isFavorite: Int = 0
 
