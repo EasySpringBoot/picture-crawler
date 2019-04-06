@@ -37,7 +37,9 @@ object JsonResultProcessor {
     }
 
     fun getUrlContent(url: String): String {
-        return URL(url).readText(Charset.defaultCharset())
+        val con = URL(url).openConnection()
+        con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+        return con.content.toString()
     }
 
     fun passFilter(imgUrl: String): Boolean {

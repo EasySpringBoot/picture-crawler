@@ -4,9 +4,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(indexes = arrayOf(
-        Index(name = "idx_url", unique = true, columnList = "url"),
-        Index(name = "idx_category", unique = false, columnList = "category")))
+@Table(indexes = arrayOf(Index(name = "idx_category", unique = false, columnList = "category")))
 class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +12,11 @@ class Image {
     @Version
     var version: Int = 0
 
-    @Column(length = 255)
+    @Column(length = 100)
     var category: String = ""
     var isFavorite: Int = 0
 
-    @Column(length = 255, unique = true, nullable = false)
+    @Column(length = 255, nullable = false)
     var url: String = ""
 
     var gmtCreated: Date = Date()

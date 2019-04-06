@@ -18,21 +18,21 @@ class CrawController {
     @Autowired lateinit var crawImageService: CrawImageService
     @Autowired lateinit var batchUpdateJob: BatchUpdateJob
 
-    @RequestMapping(value = "doBaiduImageCrawJob", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["doBaiduImageCrawJob"], method = [RequestMethod.GET])
     @ResponseBody
     fun doBaiduImageCrawJob(): String {
         crawImageService.doBaiduImageCrawJob()
         return "doBaiduImageCrawJob JOB Started"
     }
 
-    @RequestMapping(value = "doGankImageCrawJob", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["doGankImageCrawJob"], method = [RequestMethod.GET])
     @ResponseBody
     fun doGankImageCrawJob(): String {
         crawImageService.doGankImageCrawJob()
         return "doBaiduImageCrawJob JOB Started"
     }
 
-    @RequestMapping(value = "doBatchUpdateJob", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["doBatchUpdateJob"], method = [RequestMethod.GET])
     @ResponseBody
     fun BatchUpdateJob(): String {
         batchUpdateJob.job()

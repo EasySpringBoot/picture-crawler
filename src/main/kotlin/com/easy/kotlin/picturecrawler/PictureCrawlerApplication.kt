@@ -16,7 +16,7 @@ import java.io.File
 
 @SpringBootApplication
 @EnableScheduling
-class PictureCrawlerApplication
+open class PictureCrawlerApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(PictureCrawlerApplication::class.java, *args)

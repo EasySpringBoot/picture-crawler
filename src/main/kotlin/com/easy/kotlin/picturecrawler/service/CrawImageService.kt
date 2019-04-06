@@ -5,9 +5,8 @@ import com.easy.kotlin.picturecrawler.api.ImageSearchApiBuilder
 import com.easy.kotlin.picturecrawler.dao.ImageRepository
 import com.easy.kotlin.picturecrawler.dao.SearchKeyWordRepository
 import com.easy.kotlin.picturecrawler.entity.Image
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,15 +18,17 @@ import java.util.*
 class CrawImageService {
     val logger = LoggerFactory.getLogger(CrawImageService::class.java)
 
-    @Autowired lateinit var imageRepository: ImageRepository
-    @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
+    @Autowired
+    lateinit var imageRepository: ImageRepository
+    @Autowired
+    lateinit var searchKeyWordRepository: SearchKeyWordRepository
 
     fun doBaiduImageCrawJob() = runBlocking {
         val list = searchKeyWordRepository.findAll()
 
         for (i in 1..1000) {
             list.forEach {
-                launch(CommonPool) {
+                launch {
                     saveBaiduImage(it.keyWord, i)
                 }
             }
@@ -36,7 +37,7 @@ class CrawImageService {
 
     fun doGankImageCrawJob() = runBlocking {
         for (page in 1..6) {
-            launch(CommonPool) {
+            launch {
                 saveGankImage(page)
             }
         }

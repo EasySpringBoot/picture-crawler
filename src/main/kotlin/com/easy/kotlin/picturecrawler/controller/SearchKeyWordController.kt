@@ -25,14 +25,14 @@ class SearchKeyWordController {
 
     @Autowired lateinit var searchKeyWordRepository: SearchKeyWordRepository
 
-    @RequestMapping(value = "search_keyword_view", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["search_keyword_view"], method = arrayOf(RequestMethod.GET))
     fun sotuView(model: Model, request: HttpServletRequest): ModelAndView {
         model.addAttribute("requestURI", request.requestURI)
         return ModelAndView("search_keyword_view")
     }
 
 
-    @RequestMapping(value = "searchKeyWordJson", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["searchKeyWordJson"], method = arrayOf(RequestMethod.GET))
     @ResponseBody
     fun sotuSearchJson(@RequestParam(value = "page", defaultValue = "0") page: Int, @RequestParam(value = "size", defaultValue = "10") size: Int, @RequestParam(value = "searchText", defaultValue = "") searchText: String): Page<SearchKeyWord> {
         return getPageResult(page, size, searchText)
@@ -50,7 +50,7 @@ class SearchKeyWordController {
     }
 
 
-    @RequestMapping(value = "save_keyword", method = arrayOf(RequestMethod.GET, RequestMethod.POST))
+    @RequestMapping(value = ["save_keyword"], method = arrayOf(RequestMethod.GET, RequestMethod.POST))
     @ResponseBody
     fun save(@RequestParam(value = "keyWord") keyWord: String): String {
         if (keyWord == "") {
